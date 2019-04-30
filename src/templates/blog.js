@@ -5,8 +5,8 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const Bold = ({ children }) => <span className="bold">{children}</span>
-const Text = ({ children }) => <p className="align-center">{children}</p>
+const Bold = ({ children }) => <strong>{children}</strong>
+const Text = ({ children }) => <p className="align-center-or-something">{children}</p>
 
 const options = {
     renderMark: {
