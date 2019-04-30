@@ -20,10 +20,25 @@
             url
           }
         }
+        modules {
+          ... on ContentfulPizzaModule {
+            id
+            internal {
+          		type
+          	}
+          }
+          ... on ContentfulQuoteModule {
+            id
+            internal {
+          		type
+          	}
+          }
+        }
       }
     }
   }
 }
+
 
 
 ##
@@ -38,4 +53,33 @@
             type
         }
     }
+}
+
+##
+## Query Pizza by id
+##
+{
+    contentfulPizzaModule(id: {eq: "0ed9af98-83ab-5028-a31f-6cbe582ac8c1"}) {
+        id
+        pizza
+        internal {
+            type
+        }
+    }
+}
+
+##
+## Query Quote by id
+##
+{
+  contentfulQuoteModule(id: {eq: "d203adc3-db89-5fbe-b47c-7ea35dce20ac"}) {
+    id
+    quote {
+      quote
+    }
+    author
+    internal {
+      type
+    }
+  }
 }

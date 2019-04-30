@@ -4,6 +4,7 @@ import { BLOCKS, MARKS } from "@contentful/rich-text-types"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import GenericModule from "../components/genericModules/genericModule"
 
 const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p className="align-center-or-something">{children}</p>
@@ -22,7 +23,7 @@ const options = {
 }
 
 const Blog = ({ data }) => {
-  const { title, body, richBody, image, tags } = data.contentfulBlog
+  const { title, body, richBody, image, tags, modules } = data.contentfulBlog
   return (
     <Layout>
       <SEO title={title} />
@@ -44,6 +45,9 @@ const Blog = ({ data }) => {
           documentToReactComponents(richBody.json, options)
         }
         <p className="body-text">{body.body}</p>
+        {modules && 
+          <GenericModule data={modules} />
+        }
         <Link to="/blog">View blog</Link>
         <Link to="/">Back to Home</Link>
       </div>
@@ -66,6 +70,25 @@ export const pageQuery = graphql`
       image {
         file {
           url
+        }
+      }
+      modules {
+        ... on ContentfulPizzaModule {
+          id
+          pizza
+          internal {
+            type
+          }
+        }
+        ... on ContentfulQuoteModule {
+          id
+          quote {
+            quote
+          }
+          author
+          internal {
+            type
+          }
         }
       }
       tags
