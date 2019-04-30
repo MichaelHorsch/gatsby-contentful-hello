@@ -9,12 +9,16 @@ const Bold = ({ children }) => <strong>{children}</strong>
 const Text = ({ children }) => <p className="align-center-or-something">{children}</p>
 
 const options = {
-    renderMark: {
-        [MARKS.BOLD]: text => <Bold>{text}</Bold>,
+  renderMark: {
+    [MARKS.BOLD]: text => <Bold>{text}</Bold>,
+  },
+  renderNode: {
+    [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+    [BLOCKS.EMBEDDED_ASSET]: (node) => {
+      let { description, file } = node.data.target.fields
+      return <img src={file["en-US"].url} alt={description} />
     },
-    renderNode: {
-        [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
-    },
+  },
 }
 
 const Blog = ({ data }) => {
@@ -25,19 +29,19 @@ const Blog = ({ data }) => {
       <div className="blogpost">
         <h1>{title}</h1>
         {image && 
-            <img alt={title} src={image.file.url} />
+          <img alt={title} src={image.file.url} />
         }
         {tags &&
-            <div className="tags">
+          <div className="tags">
             {tags.map(tag => (
-                <span className="tag" key={tag}>
+              <span className="tag" key={tag}>
                 {tag}
-                </span>
+              </span>
             ))}
-            </div>
+          </div>
         }
         {richBody &&
-            documentToReactComponents(richBody.json, options)
+          documentToReactComponents(richBody.json, options)
         }
         <p className="body-text">{body.body}</p>
         <Link to="/blog">View blog</Link>
