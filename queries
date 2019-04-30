@@ -1,0 +1,41 @@
+##
+## Fetch all blog and interesting properties
+##
+{
+  allContentfulBlog {
+    edges {
+      node {
+        id
+        slug
+        title
+        richBody {
+          json
+        }
+        tags
+        internal {
+          type
+        }
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+
+
+##
+## Query blog by id
+##
+{
+    contentfulBlog(id: {eq: "13657ad0-80fe-59d7-a85d-2908fc00678e"}) {
+        id
+        slug
+        title
+        internal {
+            type
+        }
+    }
+}

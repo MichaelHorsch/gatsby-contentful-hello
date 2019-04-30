@@ -1,10 +1,24 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import { BLOCKS, MARKS } from "@contentful/rich-text-types"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
+const Bold = ({ children }) => <span className="bold">{children}</span>
+const Text = ({ children }) => <p className="align-center">{children}</p>
+
+const options = {
+    renderMark: {
+        [MARKS.BOLD]: text => <Bold>{text}</Bold>,
+    },
+    renderNode: {
+        [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>,
+    },
+}
+
 const Blog = ({ data }) => {
-  const { title, body, image, tags } = data.contentfulBlog;
+  const { title, body, richBody, image, tags } = data.contentfulBlog
   return (
     <Layout>
       <SEO title={title} />
@@ -22,6 +36,9 @@ const Blog = ({ data }) => {
             ))}
             </div>
         }
+        {richBody &&
+            documentToReactComponents(richBody.json, options)
+        }
         <p className="body-text">{body.body}</p>
         <Link to="/blog">View blog</Link>
         <Link to="/">Back to Home</Link>
@@ -38,6 +55,9 @@ export const pageQuery = graphql`
       slug
       body {
         body
+      }
+      richBody {
+        json
       }
       image {
         file {
